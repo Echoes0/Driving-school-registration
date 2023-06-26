@@ -13,10 +13,7 @@ import com.ll.dsr.service.StudentService;
 import com.ll.dsr.utils.JWTUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
@@ -47,6 +44,7 @@ public class LoginController {
      * @param user_code 认证码
      */
     @PostMapping("register")
+    @ResponseBody
     public Result register(Long id,String password,String user_code)
     {
         DrivingSchool drivingSchool=drivingSchoolService.getById(dsId);
@@ -58,6 +56,12 @@ public class LoginController {
         {
             log.info("管理员注册");
             Administrator administrator=new Administrator(id,password);
+            administrator.setDrivingSchoolNumber(dsId);
+
+            if (administratorService.getById(id)!=null){
+                return Result.error("账号已存在");
+            }
+
             administratorService.save(administrator);
             Result<Administrator> result=Result.success(administrator);
             result.add("type",0);
@@ -67,6 +71,11 @@ public class LoginController {
         else {
             log.info("学员注册");
             Student student=new Student(id,password);
+
+            if (studentService.getById(id)!=null){
+                return Result.error("账号已存在");
+            }
+
             studentService.login(student);
             Result<Student> result=Result.success(student);
             result.add("type",1);
@@ -82,6 +91,7 @@ public class LoginController {
      * @param password 密码
      */
     @PostMapping("login")
+    @ResponseBody
     public Result<Object> login(Long id,String password)
     {
         log.info("用户id："+id+"使用密码："+password+"登录");

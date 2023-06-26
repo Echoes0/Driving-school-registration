@@ -41,6 +41,7 @@ public class StudentController {
      * 获取所有学员
      */
     @GetMapping("list")
+    @ResponseBody
     public Result<List<Student>> getStudent(Long num,String name){
 
         log.info(String.valueOf(num));
@@ -86,6 +87,7 @@ public class StudentController {
      * @param administratorNum 管理员编号
      */
     @GetMapping("changeStudentStatus")
+    @ResponseBody
     public Result<String> changeStudentStatus(Long studentNum,int status,int administratorNum){
 
         UpdateWrapper<Student> updateWrapper = new UpdateWrapper<>();//照搬
@@ -117,7 +119,8 @@ public class StudentController {
      * @param auditNum 教练编号
      */
     @GetMapping("changeAuditNum")
-    public Result<String> changeStudentStatus(Long num,Long auditNum){
+    @ResponseBody
+    public Result<String> changeAuditNum(Long num,Long auditNum){
 
         UpdateWrapper<Student> updateWrapper = new UpdateWrapper<>();
 
@@ -142,6 +145,7 @@ public class StudentController {
      * 删除学员
      */
     @DeleteMapping("deleteStudent")
+    @ResponseBody
     public Result<String> deleteStudent(Long num){
 
         studentService.removeById(num);
@@ -190,6 +194,7 @@ public class StudentController {
      * @param examinationNum 考试编号
      */
     @PostMapping("appointment")
+    @ResponseBody
     public Result<String> appointment(Long studentNum,Long examinationNum) {
         ExamAppointments examAppointments=new ExamAppointments();
         examAppointments.setExamNumber(examinationNum);

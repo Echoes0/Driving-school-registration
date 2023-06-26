@@ -50,6 +50,7 @@ public class StudyController {
      * @param type 本次学习的类型 理论/实际
      */
     @GetMapping("changeCourseMinute")
+    @ResponseBody
     public Result<String> changeCourseStatus(Long courseNum,int studentNum,int minutes,int type){
 
         LambdaQueryWrapper<Orders> queryWrapper=new LambdaQueryWrapper<>();
@@ -100,6 +101,7 @@ public class StudyController {
      * 删除课程
      */
     @DeleteMapping("deleteCourse")
+    @ResponseBody
     public Result<String> deleteCourse(Long num){
 
         courseService.removeById(num);

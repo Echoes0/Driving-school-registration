@@ -69,6 +69,7 @@ public class ExaminationController {
      * @param examinationNum 考试编号
      */
     @PostMapping("setGrade")
+    @ResponseBody
     public Result<Grades> setGrade(Long studentNum,Long grade,Long examinationNum){
         Grades grades=new Grades();
         grades.setGradeNumber(0);
